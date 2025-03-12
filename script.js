@@ -1,5 +1,15 @@
+const updateColor = function(currentColor) {
+    currentOpacity = +currentColor.slice(-4,-1)
+    newOpacity = currentOpacity
+    if (currentOpacity<1) {newOpacity = currentOpacity + 0.1}
+    return `rgba(${Math.round(Math.random()*256)},${Math.round(Math.random()*256)},${Math.round(Math.random()*256)},${newOpacity})`
+} 
+
+
 const changeColor = function (e) {
-    e.target.style.background = 'red'
+    let currentColor = e.target.style.background
+    console.log(currentColor)
+    e.target.style.background = updateColor(currentColor)
     squresTagged+=1
     if (squresTagged==1) {
         hideSlider()
@@ -26,7 +36,7 @@ const showSlider = function showSlider(boardLength) {
     promptText.textContent = 'Select size of the board!'
     const sizeText = document.createElement('p')
     sizeText.classList.add('slider-value')
-    sizeText.textContent = `Current Size: ${boardLength} X ${boardLength}`
+    sizeText.textContent = `Current Size: ${boardLength} x ${boardLength}`
 
     sliderContainer.appendChild(promptText)
     sliderContainer.appendChild(newSlider)
@@ -34,10 +44,9 @@ const showSlider = function showSlider(boardLength) {
     optionsContainer.appendChild(sliderContainer)
     let slider = document.querySelector('.slider')
     let sliderOutput = document.querySelector('.slider-value')
-    sliderOutput.textContent = `Current Size: ${slider.value} X ${slider.value}`
 
     slider.oninput = function() {
-        sliderOutput.textContent = `Current Size: ${slider.value} X ${slider.value}`
+        sliderOutput.textContent = `Current Size: ${slider.value} x ${slider.value}`
         deleteBoard()
         drawBoard(slider.value)
   }
@@ -50,6 +59,7 @@ const showResetButton = function () {
     promptText.textContent = 'Click below to reset the board!'
     resetButton = document.createElement('button')
     resetButton.textContent = 'Reset'
+    resetButton.classList.add('reset-button')
     resetButton.addEventListener("click",clearBoard)
     resetContainer.appendChild(promptText)
     resetContainer.appendChild(resetButton)
@@ -102,13 +112,3 @@ const optionsContainer = document.querySelector('.options-container')
 
 showSlider(boardLength)
 drawBoard(boardLength)
-
-// let slider = document.querySelector('.slider')
-// let sliderOutput = document.querySelector('.slider-value')
-// sliderOutput.textContent = `Current Size: ${slider.value} X ${slider.value}`
-
-// slider.oninput = function() {
-//     sliderOutput.textContent = `Current Size: ${slider.value} X ${slider.value}`
-//     deleteBoard()
-//     drawBoard(slider.value)
-//   }
